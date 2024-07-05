@@ -47,8 +47,15 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    function speakText(text) {
+        const speech = new SpeechSynthesisUtterance(text);
+        speech.lang = "en-US";
+        window.speechSynthesis.speak(speech);
+    }
+
     speechButton.addEventListener("click", function() {
         appendMessage("SAGAR ai is activated...", "bot");
+        speakText("SAGAR ai is activated...");
 
         const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
         recognition.lang = "en-US";
@@ -57,8 +64,10 @@ document.addEventListener("DOMContentLoaded", function() {
         recognition.onresult = function(event) {
             const speechResult = event.results[0][0].transcript;
             appendMessage(speechResult, "user");
+            speakText(speechResult);
             const response = processInput(speechResult);
             appendMessage(response, "bot");
+            speakText(response);
             addToSearchHistory(speechResult);
         };
     });
@@ -67,8 +76,10 @@ document.addEventListener("DOMContentLoaded", function() {
         const inputText = userInput.value.trim();
         if (inputText !== "") {
             appendMessage(inputText, "user");
+            speakText(inputText);
             const response = processInput(inputText);
             appendMessage(response, "bot");
+            speakText(response);
             addToSearchHistory(inputText);
             userInput.value = "";
         }
@@ -79,8 +90,10 @@ document.addEventListener("DOMContentLoaded", function() {
             const inputText = userInput.value.trim();
             if (inputText !== "") {
                 appendMessage(inputText, "user");
+                speakText(inputText);
                 const response = processInput(inputText);
                 appendMessage(response, "bot");
+                speakText(response);
                 addToSearchHistory(inputText);
                 userInput.value = "";
             }
@@ -169,3 +182,26 @@ window.onload = function() {
     }
     typeText(); 
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+    const darkModeToggle = document.createElement("button");
+    darkModeToggle.textContent = "Dark Mode";
+    darkModeToggle.className = "btn btn-dark-mode";
+    darkModeToggle.style.position = "fixed";
+    darkModeToggle.style.bottom = "20px";
+    darkModeToggle.style.right = "20px";
+    document.body.appendChild(darkModeToggle);
+
+    darkModeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        document.querySelector(".navbar").classList.toggle("dark-mode");
+        document.querySelectorAll(".nav-link").forEach(link => link.classList.toggle("dark-mode"));
+        document.querySelectorAll(".dropdown-menu").forEach(menu => menu.classList.toggle("dark-mode"));
+        document.querySelectorAll(".accordion-button").forEach(button => button.classList.toggle("dark-mode"));
+        document.querySelectorAll(".accordion-body").forEach(body => body.classList.toggle("dark-mode"));
+        document.querySelector("#chat-container").classList.toggle("dark-mode");
+        document.querySelector(".history").classList.toggle("dark-mode");
+        document.querySelector("#delete-pop").classList.toggle("dark-mode");
+        document.querySelector("#user-input").classList.toggle("dark-mode");
+    });
+});
