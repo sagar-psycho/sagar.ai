@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
         messageElement.classList.add("message", sender);
         chatHistory.appendChild(messageElement);
         chatHistory.scrollTop = chatHistory.scrollHeight;
+        saveChatHistory();
     }
 
     function processInput(input) {
@@ -41,6 +42,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     window.open(`https://www.google.com/search?q=${encodeURIComponent(input)}`, "_blank");
                     return "Searching on Google...";
             }
+        } else if (input.toLowerCase().includes("who is your developer")) {
+            return "Sagar K, a web developer graduated in BBA.";
         } else {
             window.open(`https://www.google.com/search?q=${encodeURIComponent(input)}`, "_blank");
             return "Searching on Google...";
