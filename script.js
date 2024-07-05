@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function() {
         messageElement.classList.add("message", sender);
         chatHistory.appendChild(messageElement);
         chatHistory.scrollTop = chatHistory.scrollHeight;
-        saveChatHistory();
     }
 
     function processInput(input) {
@@ -42,8 +41,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     window.open(`https://www.google.com/search?q=${encodeURIComponent(input)}`, "_blank");
                     return "Searching on Google...";
             }
-        } else if (input.toLowerCase().includes("who is your developer")) {
-            return "Sagar K, a web developer graduated in BBA.";
         } else {
             window.open(`https://www.google.com/search?q=${encodeURIComponent(input)}`, "_blank");
             return "Searching on Google...";
@@ -117,10 +114,11 @@ document.addEventListener("DOMContentLoaded", function() {
         deletePop.style.display = "none";
     });
 
-    function addToSearchHistory(query) {
+    function addToSearchHistory(query, date = null) {
+        const dateString = date ? date : new Date().toLocaleString();
         const listItem = document.createElement("li");
         listItem.className = "list-group-item";
-        listItem.textContent = query;
+        listItem.textContent = `${query} - ${dateString}`;
         searchHistoryContainer.appendChild(listItem);
         saveSearchHistory();
     }
@@ -135,7 +133,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function loadSearchHistory() {
         const storedHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
-        storedHistory.forEach(item => addToSearchHistory(item));
+        storedHistory.forEach(item => {
+            const parts = item.split(' - ');
+            if (parts.length === 2) {
+                addToSearchHistory(parts[0], parts[1]);
+            }
+        });
     }
 
     function clearSearchHistory() {
