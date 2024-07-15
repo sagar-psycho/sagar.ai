@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
         messageElement.classList.add("message", sender);
         chatHistory.appendChild(messageElement);
         chatHistory.scrollTop = chatHistory.scrollHeight;
+        saveChatHistory();
     }
 
     function processInput(input) {
@@ -115,7 +116,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function addToSearchHistory(query, date = null) {
-        const dateString = date ? date : new Date().toLocaleString();
+        const options = { month: 'long', day: 'numeric' };
+        const dateString = date ? date : new Date().toLocaleDateString(undefined, options);
         const listItem = document.createElement("li");
         listItem.className = "list-group-item";
         listItem.textContent = `${query} - ${dateString}`;
