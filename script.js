@@ -213,3 +213,9 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector("#user-input").classList.toggle("dark-mode");
     });
 });
+
+
+document.addEventListener("contextmenu", function(event){
+    alert("inspect is not allowed");
+    event.preventDefault();
+})
